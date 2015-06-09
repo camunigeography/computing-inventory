@@ -1,0 +1,63 @@
+# Apache httpd.conf extract providing URL routing and other directives
+
+#   Example usage in httpd.conf:
+#   
+#   # Computing inventory
+#   Include /path/to/computing-inventory/.httpd.conf.extract.txt
+#   Use MacroComputingInventory "/computing/inventory" "/path/to/computing-inventory/:/path/to/php/libraries/"
+
+
+<Macro MacroComputingInventory $applicationBaseUrl $includePath>
+	
+	<Location $applicationBaseUrl>
+		php_value include_path "$includePath"
+	</Location>
+	
+	Use MacroFrontControllerApplication "$applicationBaseUrl/" "Computing inventory"
+	
+	RewriteEngine on
+	
+	# Machines, which uses the standard editing component except for stated overrides
+	RewriteRule ^$applicationBaseUrl/machines/add.html$ $applicationBaseUrl/index.html?action=addmachine [L]
+	RewriteRule ^$applicationBaseUrl/machines/decommissioned.html$ $applicationBaseUrl/index.html?action=decommissioned [L]
+	Use MacroSinenomineEmbeddedTable "$applicationBaseUrl" "/machines" "machines"
+	<LocationMatch $applicationBaseUrl/(machines)>
+		php_value output_buffering 524288
+	</LocationMatch>
+	
+	# Search
+	RewriteRule ^$applicationBaseUrl/search/$ $applicationBaseUrl/index.html?action=search [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/search$ $applicationBaseUrl/search/
+	RewriteRule ^$applicationBaseUrl/search/page([1-9][0-9]*)\.html$ $applicationBaseUrl/index.html?action=search&page=$1 [L,QSA]
+	RewriteRule ^$applicationBaseUrl/search/results\.(csv)$ $applicationBaseUrl/index.html?action=searchExport&exportformat=$1 [L,QSA]
+	
+	# Attributes
+	RewriteRule ^$applicationBaseUrl/attributes/$ $applicationBaseUrl/index.html?action=attributes [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/attributes$ $applicationBaseUrl/attributes/
+	RewriteRule ^$applicationBaseUrl/attributes/([^/]+)/$ $applicationBaseUrl/index.html?action=attributes&item=$1 [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/attributes/([^/]+)$ $applicationBaseUrl/attributes/$1/
+	# Allow %2F (encoded /) to appear in the URLs, e.g. <baseUrl>/attributes/processor/n%2Fa/ ; see: http://httpd.apache.org/docs/current/mod/core.html#allowencodedslashes and http://stackoverflow.com/a/9308318/180733
+	AllowEncodedSlashes NoDecode
+	RewriteRule ^$applicationBaseUrl/attributes/([^/]+)/([^/]+)/$ $applicationBaseUrl/index.html?action=attributes&item=$1&value=$2 [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/attributes/([^/]+)/([^/]+)$ $applicationBaseUrl/attributes/$1/$2/
+	
+	# Machine templates
+	RewriteRule ^$applicationBaseUrl/templates/$ $applicationBaseUrl/index.html?action=templates [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/templates$ $applicationBaseUrl/templates/
+	RewriteRule ^$applicationBaseUrl/templates/([^/]+)/$ $applicationBaseUrl/index.html?action=templateedit&item=$1 [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/templates/([^/]+)$ $applicationBaseUrl/templates/$1/
+	RewriteRule ^$applicationBaseUrl/templates/add.html$ $applicationBaseUrl/index.html?action=templateadd [L,QSA]
+	
+	# Lookup tables (IP addresses, locations, types)
+	Use MacroSinenomineEmbeddedTable "$applicationBaseUrl" "/ipaddresses" "ipaddresses"
+	Use MacroSinenomineEmbeddedTable "$applicationBaseUrl" "/locations" "locations"
+	Use MacroSinenomineEmbeddedTable "$applicationBaseUrl" "/types" "types"
+	
+	# Initial import
+	RewriteRule ^$applicationBaseUrl/import/$ $applicationBaseUrl/index.html?action=import [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/import$ $applicationBaseUrl/import/
+	<Location $applicationBaseUrl/import/>
+		php_admin_value file_uploads on
+	</Location>
+	
+</Macro>
