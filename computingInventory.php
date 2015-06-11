@@ -583,7 +583,7 @@ class computingInventory extends frontControllerApplication
 		
 		# In template mode, the MAC address field can be incomplete
 		if ($templateMode) {
-			$attributes['macaddress']['regexp'] = '^[0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F][:-][0-9A-F][0-9A-F]$';
+			$attributes['macaddress']['regexp'] = '^[0-9a-fA-F][0-9a-fA-F][:-][0-9a-fA-F][0-9a-fA-F][:-][0-9a-fA-F][0-9a-fA-F][:-][0-9a-fA-F][0-9a-fA-F][:-][0-9a-fA-F][0-9a-fA-F][:-][0-9a-fA-F][0-9a-fA-F]$';
 		}
 		
 		# Add on autocomplete for all
