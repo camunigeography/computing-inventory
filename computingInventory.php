@@ -90,7 +90,7 @@ class computingInventory extends frontControllerApplication
 				'icon' => 'bin',
 				'administrator'	=> true,
 			),
-			'templates' => array (
+			'machinetemplates' => array (	// NB 'templates' is an internal name so cannot be used
 				'description' => 'Manage machine templates',
 				'url' => 'templates/',
 				'tab' => 'Machine templates',
@@ -761,8 +761,8 @@ class computingInventory extends frontControllerApplication
 	}
 	
 	
-	# Templates - home page
-	public function templates ()
+	# Machine templates - home page
+	public function machinetemplates ()
 	{
 		# Get the current templates
 		$templates = $this->getTemplates ();

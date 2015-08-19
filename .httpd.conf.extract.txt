@@ -13,9 +13,16 @@
 		php_value include_path "$includePath"
 	</Location>
 	
-	Use MacroFrontControllerApplication "$applicationBaseUrl/" "Computing inventory"
-	
 	RewriteEngine on
+	
+	# Machine templates - URL overrides default use of /templates
+	RewriteRule ^$applicationBaseUrl/templates/$ $applicationBaseUrl/index.html?action=machinetemplates [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/templates$ $applicationBaseUrl/templates/
+	RewriteRule ^$applicationBaseUrl/templates/([^/]+)/$ $applicationBaseUrl/index.html?action=templateedit&item=$1 [L,QSA]
+	RedirectMatch permanent ^$applicationBaseUrl/templates/([^/]+)$ $applicationBaseUrl/templates/$1/
+	RewriteRule ^$applicationBaseUrl/templates/add.html$ $applicationBaseUrl/index.html?action=templateadd [L,QSA]
+	
+	Use MacroFrontControllerApplication "$applicationBaseUrl/" "Computing inventory"
 	
 	# Machines, which uses the standard editing component except for stated overrides
 	RewriteRule ^$applicationBaseUrl/machines/add.html$ $applicationBaseUrl/index.html?action=addmachine [L]
@@ -40,13 +47,6 @@
 	AllowEncodedSlashes NoDecode
 	RewriteRule ^$applicationBaseUrl/attributes/([^/]+)/([^/]+)/$ $applicationBaseUrl/index.html?action=attributes&item=$1&value=$2 [L,QSA]
 	RedirectMatch permanent ^$applicationBaseUrl/attributes/([^/]+)/([^/]+)$ $applicationBaseUrl/attributes/$1/$2/
-	
-	# Machine templates
-	RewriteRule ^$applicationBaseUrl/templates/$ $applicationBaseUrl/index.html?action=templates [L,QSA]
-	RedirectMatch permanent ^$applicationBaseUrl/templates$ $applicationBaseUrl/templates/
-	RewriteRule ^$applicationBaseUrl/templates/([^/]+)/$ $applicationBaseUrl/index.html?action=templateedit&item=$1 [L,QSA]
-	RedirectMatch permanent ^$applicationBaseUrl/templates/([^/]+)$ $applicationBaseUrl/templates/$1/
-	RewriteRule ^$applicationBaseUrl/templates/add.html$ $applicationBaseUrl/index.html?action=templateadd [L,QSA]
 	
 	# Lookup tables (IP addresses, locations, types)
 	Use MacroSinenomineEmbeddedTable "$applicationBaseUrl" "/ipaddresses" "ipaddresses"
