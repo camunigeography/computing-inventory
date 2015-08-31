@@ -403,6 +403,14 @@ class computingInventory extends frontControllerApplication
 		$sinenomineSettings['moveDeleteToEnd'] = true;
 		$sinenomineSettings['callback'] = array ($this->settings['database'] => array ($this->settings['table'] => array (__CLASS__, 'machineCallback')));
 		
+		# On the non- per-machine pages (i.e. index and search), sort by IP address by default
+		#!# Sinenomine needs a better API to handle this - orderby seems to be broken
+		if (!isSet ($_GET['do']) || ($_GET['do'] == 'search')) {
+			if (!isSet ($_GET['orderby'])) {
+				$_GET['orderby'] = 'ipaddress';
+			}
+		}
+		
 		# On the non- per-machine pages (i.e. index and search), add a constraint for whether to show decommissioned machines
 		if (!isSet ($_GET['do']) || ($_GET['do'] == 'search')) {
 			$sinenomineSettings['constraint'] = array ($this->settings['database'] => array ($this->settings['table'] => ($showDecommissioned ? $this->includeDecommissionedSql : $this->excludeDecommissionedSql)));
