@@ -24,7 +24,7 @@ class computingInventory extends frontControllerApplication
 		$defaults = array (
 			'database'				=> 'computinginventory',
 			'table'					=> 'machines',
-			'div'					=> 'inventory',
+			'div'					=> 'computinginventory',
 			'authentication'		=> true,
 			'administrators'		=> true,
 			#!# frontControllerApplication needs an 'administrator' option that effectively sets administrator=true on every action

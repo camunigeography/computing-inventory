@@ -1,9 +1,9 @@
 /* Computing inventory */
-#inventory .ultimateform td {padding-top: 3px; padding-bottom: 3px;}
-#inventory .ultimateform td:first-child, #inventory .ultimateform td h3 {width: 15em;}
-#inventory .ultimateform td h3 {margin: 12px 0 5px 7px; color: #603; font-size: 1.29em;}
-#inventory table.sinenomine {font-size: 0.93em;}
-#inventory table.sinenomine td.Delete a {opacity: 0.5;}
-#inventory table.searchresult td.id a {display: block; font-weight: bold; padding: 4px 10px 4px 32px; border: 1px solid #ccc; border-radius: 4px; background: url(/images/icons/computer.png) no-repeat 7px 4px; margin-right: 5px;}
-#inventory table.searchresult td.id a:hover {text-decoration: none; background-color: #eee; border-color: #aaa;}
-#inventory p.decommissioned {float: right; font-size: 0.93em; opacity: 0.7;}
+#computinginventory .ultimateform td {padding-top: 3px; padding-bottom: 3px;}
+#computinginventory .ultimateform td:first-child, #computinginventory .ultimateform td h3 {width: 15em;}
+#computinginventory .ultimateform td h3 {margin: 12px 0 5px 7px; color: #603; font-size: 1.29em;}
+#computinginventory table.sinenomine {font-size: 0.93em;}
+#computinginventory table.sinenomine td.Delete a {opacity: 0.5;}
+#computinginventory table.searchresult td.id a {display: block; font-weight: bold; padding: 4px 10px 4px 32px; border: 1px solid #ccc; border-radius: 4px; background: url(/images/icons/computer.png) no-repeat 7px 4px; margin-right: 5px;}
+#computinginventory table.searchresult td.id a:hover {text-decoration: none; background-color: #eee; border-color: #aaa;}
+#computinginventory p.decommissioned {float: right; font-size: 0.93em; opacity: 0.7;}
