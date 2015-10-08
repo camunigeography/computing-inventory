@@ -60,4 +60,7 @@
 		php_admin_value file_uploads on
 	</Location>
 	
+	# Admin tools
+	RewriteRule ^$applicationBaseUrl/(refreshdns).html$ $applicationBaseUrl/index.html?action=$1 [L,QSA]
+	
 </Macro>

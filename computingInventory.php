@@ -150,6 +150,12 @@ class computingInventory extends frontControllerApplication
 				'subtab' => 'Machine types',
 				'administrator'	=> true,
 			),
+			'refreshdns' => array (
+				'description' => 'Refresh DNS lookups',
+				'parent' => 'admin',
+				'subtab' => 'Refresh DNS lookups',
+				'administrator'	=> true,
+			),
 		);
 		
 		# Return the actions
@@ -1237,6 +1243,41 @@ class computingInventory extends frontControllerApplication
 		
 		# Return the data
 		return $data;
+	}
+	
+	
+	# Function to force a refresh of the DNS lookups
+	public function refreshdns ()
+	{
+		# Start the HTML
+		$html = '';
+		
+		# Obtain confirmation from the user
+		$message = 'Refresh DNS?';
+		$confirmation = 'Yes, refresh DNS';
+		if (!$this->areYouSure ($message, $confirmation, $html)) {
+			echo $html;
+			return false;
+		}
+		
+		# Get all current addresses
+		$ipAddresses = $this->databaseConnection->selectPairs ($this->settings['database'], 'machines', array (), array ('id', 'ipaddress'));
+		
+		# Perform lookups
+		$dnsNames = array ();
+		foreach ($ipAddresses as $id => $ipAddress) {
+			$dnsNames[$id]['dnsName'] = gethostbyaddr ($ipAddress);
+		}
+		
+		# Update the data
+		#!# Can't yet get a proper result status
+		$this->databaseConnection->updateMany ($this->settings['database'], 'machines', $dnsNames);
+		
+		# Confirm, resetting the HTML
+		$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> The DNS names have been refreshed. <a href=\"{$this->baseUrl}/machines/\">Browse machines.</a></p>";
+		
+		# Show the HTML
+		echo $html;
 	}
 	
 	
