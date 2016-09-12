@@ -38,7 +38,7 @@ class computingInventory extends frontControllerApplication
 	}
 	
 	
-	# Function assign additional actions
+	# Function to assign additional actions
 	public function actions ()
 	{
 		# Specify additional actions
@@ -1038,8 +1038,7 @@ class computingInventory extends frontControllerApplication
 		# Validate any selected attribute, or end
 		if ($attribute) {
 			if (!isSet ($attributes[$attribute])) {
-				$html = $this->page404 ();
-				echo $html;
+				$this->page404 ();
 				return false;
 			}
 		}
@@ -1077,8 +1076,7 @@ class computingInventory extends frontControllerApplication
 			# Now do standard processing
 			$valueLowercase = strtolower ($_GET['value']);
 			if (!application::iin_array ($valueLowercase, $values, NULL, $value)) {	// Case-insensitive version of in_array
-				$html = $this->page404 ();
-				echo $html;
+				$this->page404 ();
 				return false;
 			}
 		}
