@@ -36,11 +36,11 @@ Dependencies
 Author
 ------
 
-Martin Lucas-Smith, Department of Geography, University of Cambridge, 2015.
+Martin Lucas-Smith, Department of Geography, University of Cambridge, 2015-16.
 
 
 License
 -------
 
-GPL2.
+GPL3.
 
