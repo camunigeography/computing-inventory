@@ -31,6 +31,7 @@ class computingInventory extends frontControllerApplication
 			'description'			=> 'Computing inventory',
 			'databaseStrictWhere'	=> true,
 			'expandableCharacter'	=> "\n",
+			'tabUlClass'			=> 'tabsflat',
 		);
 		
 		# Return the defaults
