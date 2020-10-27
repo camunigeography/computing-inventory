@@ -1173,8 +1173,7 @@ class computingInventory extends frontControllerApplication
 		$selected = "{$this->baseUrl}/attributes/" . ($attribute ? "{$attribute}/" : '');
 		
 		# Compile the HTML and register a processor
-		$html  = pureContent::htmlJumplist ($droplist, $selected, $this->baseUrl . '/attributes/', $name = 'attributesdroplist', $parentTabLevel = 0, $class = 'attributesdroplist right', false);
-		pureContent::jumplistProcessor ($name);
+		$html = application::htmlJumplist ($droplist, $selected, $this->baseUrl . '/attributes/', $name = 'attributesdroplist', $parentTabLevel = 0, $class = 'attributesdroplist right', false);
 		
 		# Return the HTML
 		return $html;
