@@ -855,6 +855,19 @@ class computingInventory extends frontControllerApplication
 			'required' => true,
 			'values' => $templates,
 		));
+		$form->input (array (
+		    'name'		=> 'confirm',
+		    'title'		=> 'Please type the template name to confirm',
+		    'required'	=> true,
+			'size'		=> 20,
+		));
+		if ($unfinalisedData = $form->getUnfinalisedData ()) {
+			if ($unfinalisedData['name'] && $unfinalisedData['confirm']) {
+				if ($unfinalisedData['name'] != $unfinalisedData['confirm']) {
+					$form->registerProblem ('mismatch', 'The name confirmation does not match.');
+				}
+			}
+		}
 		if ($result = $form->process ($html)) {
 			if ($this->databaseConnection->delete ($this->settings['database'], 'templates', array ('name' => $result['name']))) {
 				$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> " . htmlspecialchars ($result['name']) . " has been deleted. <a href=\"\">Reset page.</a></p>";
