@@ -508,7 +508,7 @@ class computingInventory extends frontControllerApplication
 	public function addmachine ()
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Show a template selection form (which otherwise returns an empty array
 		$data = $this->templateSelectionForm ($html);
@@ -525,7 +525,7 @@ class computingInventory extends frontControllerApplication
 		# Redirect to machine page, resetting the HTML
 		$id = $this->databaseConnection->getLatestId ();
 		$location = $_SERVER['_SITE_URL'] . $this->baseUrl . "/machines/{$id}/";
-		$html  = application::sendHeader (302, $location, $redirectMessage = true);
+		$html = application::sendHeader (302, $location, $redirectMessage = true);
 		
 		#!# Set flash
 		
@@ -544,7 +544,7 @@ class computingInventory extends frontControllerApplication
 		if (!$templates = $this->getTemplates ()) {return $data;}
 		
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Create the form
 		$form = new form (array (
@@ -693,10 +693,10 @@ class computingInventory extends frontControllerApplication
 			
 			# Add in the template name
 			$form->heading ('3', ($data ? 'Name of this template' : 'What name do you want to give this template?'));
-			$form->input (array ( 
-			    'name'		=> 'name', 
-			    'title'		=> 'Template name', 
-			    'required'	=> true, 
+			$form->input (array (
+			    'name'		=> 'name',
+			    'title'		=> 'Template name',
+			    'required'	=> true,
 			    'maxlength'	=> 255,
 				'current'	=> $templates,	// i.e. Other template names not including the current one
 				'default'	=> ($data ? $name : false),
@@ -808,7 +808,7 @@ class computingInventory extends frontControllerApplication
 		
 		# Load the template list into the placeholder
 		$templatesListHtml = $this->templatesListHtml ($templates);
-		$html  = str_replace ('%TEMPLATESLIST%', $templatesListHtml, $html);
+		$html = str_replace ('%TEMPLATESLIST%', $templatesListHtml, $html);
 		
 		# Show the HTML
 		echo $html;
@@ -820,7 +820,7 @@ class computingInventory extends frontControllerApplication
 	{
 		# End if none
 		if (!$templates) {
-			return $html  = "\n<p>No templates have yet been created.</p>";
+			return $html = "\n<p>No templates have yet been created.</p>";
 		}
 		
 		# Compile the HTML
@@ -828,7 +828,7 @@ class computingInventory extends frontControllerApplication
 		foreach ($templates as $name => $data) {
 			$list[] = $this->templateLink ($name) . htmlspecialchars (" - {$data['type']}");
 		}
-		$html  = application::htmlUl ($list);
+		$html = application::htmlUl ($list);
 		
 		# Return the list
 		return $html;
@@ -839,7 +839,7 @@ class computingInventory extends frontControllerApplication
 	private function templateDeletionForm ($templates)
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Create the form
 		$form = new form (array (
@@ -857,9 +857,9 @@ class computingInventory extends frontControllerApplication
 		));
 		if ($result = $form->process ($html)) {
 			if ($this->databaseConnection->delete ($this->settings['database'], 'templates', array ('name' => $result['name']))) {
-				$html  = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> " . htmlspecialchars ($result['name']) . " has been deleted. <a href=\"\">Reset page.</a></p>";
+				$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> " . htmlspecialchars ($result['name']) . " has been deleted. <a href=\"\">Reset page.</a></p>";
 			} else {
-				$html  = "\n<p class=\"warning\">There was a problem deleting the template.</p>";
+				$html = "\n<p class=\"warning\">There was a problem deleting the template.</p>";
 			}
 		}
 		
@@ -917,7 +917,7 @@ class computingInventory extends frontControllerApplication
 	public function templateadd ()
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Create the machine form or end
 		if (!$result = $this->machineForm ($html, false)) {
@@ -937,7 +937,7 @@ class computingInventory extends frontControllerApplication
 	public function templateedit ($name)
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Get the current item
 		if (!$name = (isSet ($_GET['item']) ? $_GET['item'] : false)) {
@@ -1031,7 +1031,7 @@ class computingInventory extends frontControllerApplication
 	public function attributes ($attribute = false)
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Get the available listable machine attributes
 		$attributes = $this->getListableAttributes ();
@@ -1283,7 +1283,7 @@ class computingInventory extends frontControllerApplication
 	public function import ()
 	{
 		# Start the HTML
-		$html  = '';
+		$html = '';
 		
 		# Define the upload directory
 		$directory = $_SERVER['DOCUMENT_ROOT'] . $this->baseUrl . '/';
@@ -1428,7 +1428,7 @@ class computingInventory extends frontControllerApplication
 		}
 		
 		# Confirm
-		$html  = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> The data has been imported. <a href=\"\">Reset page.</a></p>";
+		$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> The data has been imported. <a href=\"\">Reset page.</a></p>";
 		
 		# Show the HTML
 		echo $html;
