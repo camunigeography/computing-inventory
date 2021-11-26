@@ -413,7 +413,7 @@ class computingInventory extends frontControllerApplication
 		$sinenomineSettings['pagination'] = false;
 		$sinenomineSettings['simpleJoin'] = true;
 		$sinenomineSettings['moveDeleteToEnd'] = true;
-		$sinenomineSettings['callback'] = array ($this->settings['database'] => array ($this->settings['table'] => array (__CLASS__, 'machineCallback')));
+		$sinenomineSettings['callback'] = array ($this->settings['database'] => array ($this->settings['table'] => array ($this, 'machineCallback')));
 		
 		# On the non- per-machine pages (i.e. index and search), sort by IP address by default
 		#!# Sinenomine needs a better API to handle this - orderby seems to be broken
@@ -455,7 +455,18 @@ class computingInventory extends frontControllerApplication
 	
 	
 	# Callback method for machine updating
-	public static function machineCallback ($record)
+	public function machineCallback ($record, &$errorHtml = '')
+	{
+		# Update the machine DNS value
+		$record = $this->updateMachineDnsValue ($record);
+		
+		# Return the record
+		return $record;
+	}
+	
+	
+	# Update the machine DNS value
+	private function updateMachineDnsValue ($record)
 	{
 		# Look up the DNS name(s)
 		$dnsNames = array ();
