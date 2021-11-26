@@ -32,6 +32,7 @@ class computingInventory extends frontControllerApplication
 			'databaseStrictWhere'	=> true,
 			'expandableCharacter'	=> "\n",
 			'tabUlClass'			=> 'tabsflat',
+			'useSettings'			=> true,
 		);
 		
 		# Return the defaults
@@ -174,6 +175,10 @@ class computingInventory extends frontControllerApplication
 			  `editingStateMachines` text COLLATE utf8mb4_unicode_ci COMMENT 'Fields to display',
 			  `editingStateIpaddresses` text COLLATE utf8mb4_unicode_ci COMMENT 'Fields to display'
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Helpdesk administrators';
+			
+			CREATE TABLE IF NOT EXISTS `settings` (
+			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Settings';
 			
 			CREATE TABLE IF NOT EXISTS `ipaddresses` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
@@ -1445,6 +1450,19 @@ class computingInventory extends frontControllerApplication
 		
 		# Show the HTML
 		echo $html;
+	}
+	
+	
+	# Settings page customisation
+	public function settings ($dataBindingSettingsOverrides = array ())
+	{
+		$dataBindingSettingsOverrides = array (
+			'attributes' => array (
+			),
+		);
+		
+		# Run the settings page
+		parent::settings ($dataBindingSettingsOverrides);
 	}
 }
 
