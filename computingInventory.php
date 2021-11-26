@@ -178,6 +178,7 @@ class computingInventory extends frontControllerApplication
 			
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
+			   `jackdawCookie` VARCHAR(255) NULL COMMENT 'Jackdaw API cookie',
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Settings';
 			
 			CREATE TABLE IF NOT EXISTS `ipaddresses` (
@@ -460,6 +461,9 @@ class computingInventory extends frontControllerApplication
 		# Update the machine DNS value
 		$record = $this->updateMachineDnsValue ($record);
 		
+		# Register a callback for updating Jackdaw; see: https://www.dns.cam.ac.uk/ipreg/help/list_ops.html
+		$this->jackdawIntegration ($record, $errorHtml);
+		
 		# Return the record
 		return $record;
 	}
@@ -481,6 +485,79 @@ class computingInventory extends frontControllerApplication
 		
 		# Return the record
 		return $record;
+	}
+	
+	
+	# Function to provide a callback for Jackdaw integration; see: https://www.dns.cam.ac.uk/ipreg/api/ and https://www.dns.cam.ac.uk/ipreg/help/xlist_ops.html
+	private function jackdawIntegration ($record, &$errorHtml = '')
+	{
+		# End if functionality not enabled
+		if (!$this->settings['jackdawCookie']) {return;}
+		
+		# Apply only to edits
+		if ($_GET['do'] != 'edit') {return;}
+		
+		# Apply only to desktops/laptops
+		$types = $this->getTypes ();
+		$type = $types[$record['typeId']];
+		if (!preg_match ('/(desktop|laptop)/i', $type)) {return false;}
+		
+		# Look up the locations
+		$locations = $this->getLocations ();
+		
+		# Construct the equipmnent string; e.g. 'Dell Intel Core i5 750 2.67GHz, 8GB RAM, 500GB SSD'
+		$machine = implode (' ', array_filter (array ($record['manufacturer'], $record['model'], $record['processor'])));
+		$equipmentString = implode (', ', array_filter (array ($machine, $record['memory'], $record['harddisk'])));
+		
+		# Construct the data row, mapping Jackdaw fields (left) to local record fields (right)
+		$data = array (
+			'name'			=> $record['dnsName'],		// Used as read key
+			'equipment'		=> $equipmentString,
+			'location'		=> $locations[$record['locationId']],
+			'owner'			=> $record['owner'],
+			'end_user'		=> $record['user'],
+			'sysadmin'		=> 'CO',
+			'remarks'		=> $record['notes'],
+			// 'mac'			=> str_replace ('-', ':', strtolower ($record['macaddress'])),
+		);
+		
+		# Ensure tabs not present, as this is a reserved character
+		foreach ($data as $key => $value) {
+			$data[$key] = str_replace ("\t", ' ', $value);
+		}
+		
+		# Construct the Jackdaw data
+		$jackdawDataString  = implode ("\t", array_keys ($data)) . "\n";
+		$jackdawDataString .= implode ("\t", array_values ($data));
+		
+		# Construct the request
+		$url = 'https://jackdaw.cam.ac.uk/ipreg/xlist_ops';		// See: https://www.dns.cam.ac.uk/ipreg/help/xlist_ops.html
+		$cookieString = 'WebDBI_jackdaw=' . $this->settings['jackdawCookie'];
+		$postData = array (
+			'do_it'			=> 'modify',
+			'object_type'	=> 'box',
+			'upload_file'	=> curl_file_create ('data://application/octet-stream;base64,' . base64_encode ($jackdawDataString), 'text/plain'),		// See: https://php.watch/versions/8.1/CURLStringFile
+		);
+		
+		# Post the request
+		$responseHtml = application::file_post_contents ($url, $postData, false, $httpError, $userAgent = $this->settings['description'] . ' at ' . $_SERVER['SERVER_NAME'], $cookieString);
+		
+		# End if HTTP error occured
+		if ($httpError) {
+			$errorHtml  = '<p class="warning">There was an error transmitting the update to Jackdaw. The data sent was:</p>';
+			$errorHtml .= '<pre>' . htmlspecialchars ($jackdawDataString) . '</pre>';
+			return false;
+		}
+		
+		# Extract any error from the page
+		if (preg_match ('/\*\*\*([^<]+)/', $responseHtml, $matches)) {
+			$errorHtml  = '<p class="warning">Jackdaw error response: <em>' . htmlspecialchars (trim ($matches[1])) . '</em>. The data sent was:</p>';
+			$errorHtml .= '<pre>' . htmlspecialchars ($jackdawDataString) . '</pre>';
+			return false;
+		}
+		
+		# Return result
+		return (!$error);
 	}
 	
 	
@@ -1469,6 +1546,7 @@ class computingInventory extends frontControllerApplication
 	{
 		$dataBindingSettingsOverrides = array (
 			'attributes' => array (
+				'jackdawCookie' => array ('prepend' => 'WebDBI_jackdaw=', 'size' => 40, 'description' => '<a href="https://jackdaw.cam.ac.uk/ipreg/download-cookie" target="_blank">Obtain here</a>'),
 			),
 		);
 		
