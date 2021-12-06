@@ -221,6 +221,8 @@ class computingInventory extends frontControllerApplication
 			  `commissionedDate` date DEFAULT NULL COMMENT 'Commissioned date',
 			  `decommissionedDate` date DEFAULT NULL COMMENT 'Decomissioned date',
 			  `decommisionedTo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Decommisioned to',
+			  `loanedTo` VARCHAR(255) NULL COMMENT 'Loaned to',
+			  `loanDate` DATE NULL COMMENT 'Loan date',
 			  `notes` text COLLATE utf8mb4_unicode_ci COMMENT 'Notes'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of machines';
 			
@@ -829,6 +831,7 @@ class computingInventory extends frontControllerApplication
 			# Username field uses data from the people database, sent back as value&label fields
 #!# Replace with HTTP retrieval
 			case 'user':
+			case 'loanedTo':
 				$query = "SELECT
 						username AS value,
 						CONCAT(username,' (',forename,' ',surname,')') AS label
