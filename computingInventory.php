@@ -415,6 +415,7 @@ class computingInventory extends frontControllerApplication
 		$sinenomineSettings['simpleJoin'] = true;
 		$sinenomineSettings['moveDeleteToEnd'] = true;
 		$sinenomineSettings['callback'] = array ($this->settings['database'] => array ($this->settings['table'] => array ($this, 'machineCallback')));
+		$sinenomineSettings['datePicker'] = true;
 		
 		# On the non- per-machine pages (i.e. index and search), sort by IP address by default
 		#!# Sinenomine needs a better API to handle this - orderby seems to be broken
@@ -685,8 +686,6 @@ class computingInventory extends frontControllerApplication
 			'notes' => array ('heading' => array (3 => 'Notes', )),
 			'macaddress' => array ('size' => 25),
 			'owner' => array ('heading' => array (3 => 'Audit', )),
-			'commissionedDate' => array ('picker' => true, ),
-			'decommissionedDate' => array ('picker' => true, ),
 		);
 		
 		# In template mode, the MAC address field can be incomplete
