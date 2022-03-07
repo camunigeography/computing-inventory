@@ -842,7 +842,10 @@ class computingInventory extends frontControllerApplication
 						OR surname LIKE :term
 						OR CONCAT(forename,' ',surname) LIKE :term
 					ORDER BY label;";
-				if (!$data = $this->databaseConnection->getData ($query, false, true, array ('term' => $term . '%'))) {return false;}
+				if (!$data = $this->databaseConnection->getData ($query, false, true, array ('term' => $term . '%'))) {
+					//var_dump ($this->databaseConnection->error ());
+					return false;
+				}
 				
 				break;
 				
@@ -854,13 +857,19 @@ class computingInventory extends frontControllerApplication
 				FROM ipaddresses
 				WHERE ipAddress LIKE :term
 				ORDER BY INET_ATON(ipAddress);";
-				if (!$data = $this->databaseConnection->getData ($query, false, true, array ('term' => $term . '%'))) {return false;}
+				if (!$data = $this->databaseConnection->getData ($query, false, true, array ('term' => $term . '%'))) {
+					//var_dump ($this->databaseConnection->error ());
+					return false;
+				}
 				break;
 				
 			default:
-				$query = "SELECT DISTINCT `{$field}` FROM {$this->settings['database']}.{$this->settings['table']} WHERE `{$field}` REGEXP '[[:<:]]{$term}' ORDER BY `{$field}`;";
+				$query = "SELECT DISTINCT `{$field}` FROM {$this->settings['database']}.{$this->settings['table']} WHERE `{$field}` REGEXP '\\\\b{$term}' ORDER BY `{$field}`;";
 				// $query = "SELECT DISTINCT `{$field}` FROM {$this->settings['database']}.{$this->settings['table']} WHERE `{$field}` LIKE '{$term}%' ORDER BY `{$field}`;";
-				if (!$data = $this->databaseConnection->getPairs ($query)) {return false;}
+				if (!$data = $this->databaseConnection->getPairs ($query)) {
+					//var_dump ($this->databaseConnection->error ());
+					return false;
+				}
 		}
 		
 		# Arrange the data
