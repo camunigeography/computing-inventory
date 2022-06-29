@@ -508,9 +508,9 @@ class computingInventory extends frontControllerApplication
 		# Look up the locations
 		$locations = $this->getLocations ();
 		
-		# Construct the equipmnent string; e.g. 'Dell Intel Core i5 750 2.67GHz, 8GB RAM, 500GB SSD'
-		$machine = implode (' ', array_filter (array ($record['manufacturer'], $record['model'], $record['processor'])));
-		$equipmentString = implode (', ', array_filter (array ($machine, $record['memory'], $record['harddisk'])));
+		# Construct the equipment string; e.g. 'Dell Intel Core i5 750 2.67GHz, 8GB RAM, 500GB SSD'; multiple items in a field are joined by &
+		$machine = implode (' ', str_replace (array ("\r\n", "\n"), ' & ', array_filter (array ($record['manufacturer'], $record['model'], $record['processor']))));
+		$equipmentString = implode (', ', str_replace (array ("\r\n", "\n"), ' & ', array_filter (array ($machine, $record['memory'], $record['harddisk']))));
 		
 		# Construct the data row, mapping Jackdaw fields (left) to local record fields (right)
 		$data = array (
