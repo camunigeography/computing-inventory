@@ -437,9 +437,9 @@ class computingInventory extends frontControllerApplication
 		}
 		
 		# Show warning if required
-		if (isSet ($_GET['record']) && isSet ($_GET['do']) && ($_GET['do'] == 'delete')) {
+		if (isSet ($_GET['record']) && ctype_digit ($_GET['record']) && isSet ($_GET['do']) && ($_GET['do'] == 'delete')) {
 			$html .= "\n<div class=\"graybox\">";
-			$html .= "\n<p class=\"warning\">Note: this should not be used for decommissioning machines - only for erasing mistakes.</p>";
+			$html .= "\n<p class=\"warning\">Note: this should not be used for decommissioning machines - only for erasing mistakes.<br />To decommission a machine, <a href=\"{$this->baseUrl}/machines/{$_GET['record']}/edit.html#form_decommissionedDate\">edit it</a> to put in the decommissioning date.</p>";
 			$html .= "\n</div>";
 		}
 		
