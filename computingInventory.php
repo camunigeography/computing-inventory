@@ -33,6 +33,7 @@ class computingInventory extends frontControllerApplication
 			'expandableCharacter'	=> "\n",
 			'tabUlClass'			=> 'tabsflat',
 			'useSettings'			=> true,
+			'jackdawRefreshPeriod'	=> '1 hour',		// strtotime string
 		);
 		
 		# Return the defaults
@@ -179,6 +180,7 @@ class computingInventory extends frontControllerApplication
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
 			   `jackdawCookie` VARCHAR(255) NULL COMMENT 'Jackdaw API cookie',
+			   `_pseudoCron` DATETIME NULL DEFAULT NULL
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Settings';
 			
 			CREATE TABLE IF NOT EXISTS `ipaddresses` (
@@ -264,6 +266,13 @@ class computingInventory extends frontControllerApplication
 	# Additional initialisation
 	protected function main ()
 	{
+		# Force a DNS names update if stale
+		$freshnessTimestamp = date ('Y-m-d H:i:s', strtotime ('-' . $this->settings['jackdawRefreshPeriod']));
+		if ($this->settings['_pseudoCron'] < $freshnessTimestamp) {
+			$this->dnsUpdate ();
+			$this->databaseConnection->update ($this->settings['database'], 'settings', array ('_pseudoCron' => 'NOW()'), array ('id' => 1));
+		}
+		
 		# Define SQL extracts relating to decommissioned machines
 		$this->excludeDecommissionedSql = 'decommissionedDate IS NULL';
 		$this->includeDecommissionedSql = 'decommissionedDate IS NOT NULL';
@@ -1564,6 +1573,7 @@ class computingInventory extends frontControllerApplication
 	public function settings ($dataBindingSettingsOverrides = array ())
 	{
 		$dataBindingSettingsOverrides = array (
+			'exclude' => array ('_pseudoCron'),
 			'attributes' => array (
 				'jackdawCookie' => array ('prepend' => 'WebDBI_jackdaw=', 'size' => 40, 'description' => '<a href="https://jackdaw.cam.ac.uk/ipreg/download-cookie" target="_blank">Obtain here</a>'),
 			),
