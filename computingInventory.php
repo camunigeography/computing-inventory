@@ -1375,6 +1375,20 @@ class computingInventory extends frontControllerApplication
 			return false;
 		}
 		
+		# Perform the update
+		$this->dnsUpdate ();
+		
+		# Confirm, resetting the HTML
+		$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> The DNS names have been refreshed. <a href=\"{$this->baseUrl}/machines/\">Browse machines.</a></p>";
+		
+		# Show the HTML
+		echo $html;
+	}
+	
+	
+	# Function to refresh DNS names
+	private function dnsUpdate ()
+	{
 		# Get all current addresses
 		$ipAddresses = $this->databaseConnection->selectPairs ($this->settings['database'], 'machines', array (), array ('id', 'ipaddress'));
 		
@@ -1387,12 +1401,6 @@ class computingInventory extends frontControllerApplication
 		# Update the data
 		#!# Can't yet get a proper result status
 		$this->databaseConnection->updateMany ($this->settings['database'], 'machines', $dnsNames);
-		
-		# Confirm, resetting the HTML
-		$html = "\n<p><img src=\"/images/icons/tick.png\" class=\"icon\" alt=\"Tick\" /> The DNS names have been refreshed. <a href=\"{$this->baseUrl}/machines/\">Browse machines.</a></p>";
-		
-		# Show the HTML
-		echo $html;
 	}
 	
 	
