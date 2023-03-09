@@ -1404,6 +1404,7 @@ class computingInventory extends frontControllerApplication
 		# Perform lookups
 		$dnsNames = array ();
 		foreach ($ipAddresses as $id => $ipAddress) {
+			if (!strlen ($ipAddress)) {continue;}	// Skip empty
 			$dnsNames[$id]['dnsName'] = gethostbyaddr ($ipAddress);
 		}
 		
