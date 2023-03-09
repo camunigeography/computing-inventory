@@ -568,8 +568,8 @@ class computingInventory extends frontControllerApplication
 			return false;
 		}
 		
-		# Return result
-		return (!$error);
+		# Return success
+		return true;
 	}
 	
 	
