@@ -198,7 +198,7 @@ class computingInventory extends frontControllerApplication
 			CREATE TABLE IF NOT EXISTS `machines` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID #' PRIMARY KEY,
 			  `ipaddress` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP address' UNIQUE KEY,
-			  `dnsName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'DNS name (looked-up automatically)',
+			  `dnsName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'DNS name (looked-up automatically upon saving the page)',
 			  `typeId` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Type of machine',
 			  `manufacturer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Manufacturer',
 			  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Model',
