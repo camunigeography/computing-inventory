@@ -175,25 +175,25 @@ class computingInventory extends frontControllerApplication
 			  `active` enum('','Yes','No') NOT NULL DEFAULT 'Yes' COMMENT 'Currently active?',
 			  `editingStateMachines` text COMMENT 'Fields to display',
 			  `editingStateIpaddresses` text COMMENT 'Fields to display'
-			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Helpdesk administrators';
+			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Helpdesk administrators';
 			
 			CREATE TABLE IF NOT EXISTS `settings` (
 			  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Automatic key (ignored)' PRIMARY KEY,
 			   `jackdawCookie` VARCHAR(255) NULL COMMENT 'Jackdaw API cookie',
 			   `_pseudoCron` DATETIME NULL DEFAULT NULL
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Settings';
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Settings';
 			
 			CREATE TABLE IF NOT EXISTS `ipaddresses` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
 			  `ipAddress` varchar(40) NOT NULL COMMENT 'IP address' UNIQUE KEY,
 			  `reserved` enum('','Yes','No') NOT NULL DEFAULT 'No' COMMENT 'Whether the IP address is reserved'
-			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='IP addresses';
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='IP addresses';
 			
 			CREATE TABLE IF NOT EXISTS `locations` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
 			  `building` varchar(255) NOT NULL COMMENT 'Building name',
 			  `floor` varchar(255) NOT NULL COMMENT 'Floor'
-			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of locations (buildings/floors)';
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of locations (buildings/floors)';
 			
 			CREATE TABLE IF NOT EXISTS `machines` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID #' PRIMARY KEY,
@@ -226,19 +226,19 @@ class computingInventory extends frontControllerApplication
 			  `loanedTo` VARCHAR(255) NULL COMMENT 'Loaned to',
 			  `loanDate` DATE NULL COMMENT 'Loan date',
 			  `notes` text COMMENT 'Notes'
-			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of machines';
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of machines';
 			
 			CREATE TABLE IF NOT EXISTS `templates` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
 			  `name` varchar(255) NOT NULL COMMENT 'Name for this profile',
 			  `attribute` varchar(64) NOT NULL COMMENT 'Attribute',
 			  `value` text NOT NULL COMMENT 'Value'
-			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of machine template attributes';
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table of machine template attributes';
 			
 			CREATE TABLE IF NOT EXISTS `types` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
 			  `type` varchar(255) NOT NULL COMMENT 'Machine type'
-			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Machine types';
+			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Machine types';
 			
 			INSERT INTO `types` (`type`) VALUES
 				('Desktop'),
