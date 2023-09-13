@@ -171,10 +171,10 @@ class computingInventory extends frontControllerApplication
 	{
 		return "
 			CREATE TABLE IF NOT EXISTS `administrators` (
-			  `username__JOIN__people__people__reserved` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Username' PRIMARY KEY,
-			  `active` enum('','Yes','No') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Yes' COMMENT 'Currently active?',
-			  `editingStateMachines` text COLLATE utf8mb4_unicode_ci COMMENT 'Fields to display',
-			  `editingStateIpaddresses` text COLLATE utf8mb4_unicode_ci COMMENT 'Fields to display'
+			  `username__JOIN__people__people__reserved` varchar(191) NOT NULL COMMENT 'Username' PRIMARY KEY,
+			  `active` enum('','Yes','No') NOT NULL DEFAULT 'Yes' COMMENT 'Currently active?',
+			  `editingStateMachines` text COMMENT 'Fields to display',
+			  `editingStateIpaddresses` text COMMENT 'Fields to display'
 			) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Helpdesk administrators';
 			
 			CREATE TABLE IF NOT EXISTS `settings` (
@@ -185,59 +185,59 @@ class computingInventory extends frontControllerApplication
 			
 			CREATE TABLE IF NOT EXISTS `ipaddresses` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
-			  `ipAddress` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'IP address' UNIQUE KEY,
-			  `reserved` enum('','Yes','No') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'No' COMMENT 'Whether the IP address is reserved'
+			  `ipAddress` varchar(40) NOT NULL COMMENT 'IP address' UNIQUE KEY,
+			  `reserved` enum('','Yes','No') NOT NULL DEFAULT 'No' COMMENT 'Whether the IP address is reserved'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='IP addresses';
 			
 			CREATE TABLE IF NOT EXISTS `locations` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
-			  `building` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Building name',
-			  `floor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Floor'
+			  `building` varchar(255) NOT NULL COMMENT 'Building name',
+			  `floor` varchar(255) NOT NULL COMMENT 'Floor'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of locations (buildings/floors)';
 			
 			CREATE TABLE IF NOT EXISTS `machines` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID #' PRIMARY KEY,
-			  `ipaddress` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP address' UNIQUE KEY,
-			  `dnsName` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'DNS name (looked-up automatically upon saving the page)',
-			  `typeId` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Type of machine',
-			  `manufacturer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Manufacturer',
-			  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Model',
-			  `monitor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Monitor',
-			  `processor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Processor',
-			  `memory` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Memory',
-			  `harddisk` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Hard disk',
-			  `videocard` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Video card',
-			  `networkcard` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Network card',
+			  `ipaddress` varchar(45) DEFAULT NULL COMMENT 'IP address' UNIQUE KEY,
+			  `dnsName` varchar(255) DEFAULT NULL COMMENT 'DNS name (looked-up automatically upon saving the page)',
+			  `typeId` varchar(255) NOT NULL COMMENT 'Type of machine',
+			  `manufacturer` varchar(255) NOT NULL COMMENT 'Manufacturer',
+			  `model` varchar(255) NOT NULL COMMENT 'Model',
+			  `monitor` varchar(255) DEFAULT NULL COMMENT 'Monitor',
+			  `processor` varchar(255) DEFAULT NULL COMMENT 'Processor',
+			  `memory` varchar(255) DEFAULT NULL COMMENT 'Memory',
+			  `harddisk` varchar(255) DEFAULT NULL COMMENT 'Hard disk',
+			  `videocard` varchar(255) DEFAULT NULL COMMENT 'Video card',
+			  `networkcard` varchar(255) DEFAULT NULL COMMENT 'Network card',
 			  `locationId` int(11) DEFAULT NULL COMMENT 'Location',
-			  `room` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Room',
-			  `user` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'End user ID',
-			  `os` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Operating system',
-			  `sitevariable` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Site variable',
-			  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'OS image version',
-			  `officeVersion` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Office version',
-			  `adobeSoftware` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Adobe software',
-			  `serialnumber` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Serial number',
-			  `macaddress` varchar(17) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'MAC address',
-			  `tag` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Tag',
-			  `owner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Owner',
+			  `room` varchar(255) DEFAULT NULL COMMENT 'Room',
+			  `user` varchar(255) DEFAULT NULL COMMENT 'End user ID',
+			  `os` varchar(255) DEFAULT NULL COMMENT 'Operating system',
+			  `sitevariable` varchar(255) DEFAULT NULL COMMENT 'Site variable',
+			  `image` varchar(255) DEFAULT NULL COMMENT 'OS image version',
+			  `officeVersion` varchar(255) DEFAULT NULL COMMENT 'Office version',
+			  `adobeSoftware` varchar(255) DEFAULT NULL COMMENT 'Adobe software',
+			  `serialnumber` varchar(255) DEFAULT NULL COMMENT 'Serial number',
+			  `macaddress` varchar(17) DEFAULT NULL COMMENT 'MAC address',
+			  `tag` varchar(255) DEFAULT NULL COMMENT 'Tag',
+			  `owner` varchar(255) DEFAULT NULL COMMENT 'Owner',
 			  `commissionedDate` date DEFAULT NULL COMMENT 'Commissioned date',
 			  `decommissionedDate` date DEFAULT NULL COMMENT 'Decomissioned date',
-			  `decommisionedTo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Decommisioned to',
+			  `decommisionedTo` varchar(255) DEFAULT NULL COMMENT 'Decommisioned to',
 			  `loanedTo` VARCHAR(255) NULL COMMENT 'Loaned to',
 			  `loanDate` DATE NULL COMMENT 'Loan date',
-			  `notes` text COLLATE utf8mb4_unicode_ci COMMENT 'Notes'
+			  `notes` text COMMENT 'Notes'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of machines';
 			
 			CREATE TABLE IF NOT EXISTS `templates` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
-			  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Name for this profile',
-			  `attribute` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Attribute',
-			  `value` text COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Value'
+			  `name` varchar(255) NOT NULL COMMENT 'Name for this profile',
+			  `attribute` varchar(64) NOT NULL COMMENT 'Attribute',
+			  `value` text NOT NULL COMMENT 'Value'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Table of machine template attributes';
 			
 			CREATE TABLE IF NOT EXISTS `types` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Automatic key' PRIMARY KEY,
-			  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Machine type'
+			  `type` varchar(255) NOT NULL COMMENT 'Machine type'
 			) ENGINE=MyISAM  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Machine types';
 			
 			INSERT INTO `types` (`type`) VALUES
