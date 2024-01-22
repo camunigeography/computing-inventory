@@ -488,7 +488,7 @@ class computingInventory extends frontControllerApplication
 		$dnsNames = array ();
 		foreach ($_POST['form'] as $field => $value) {
 			if (preg_match ('/^ipaddress_/', $field)) {
-				$dnsNames[] = gethostbyaddr ($value);
+				$dnsNames[] = $this->ipToDns ($value);
 			}
 		}
 		
@@ -497,6 +497,13 @@ class computingInventory extends frontControllerApplication
 		
 		# Return the record
 		return $record;
+	}
+	
+	
+	# Function to get a DNS name from an IP, due to unreliability of gethostbyaddr
+	private function ipToDns ($ip)
+	{
+		return gethostbyaddr ($ip);
 	}
 	
 	
@@ -1405,7 +1412,7 @@ class computingInventory extends frontControllerApplication
 		$dnsNames = array ();
 		foreach ($ipAddresses as $id => $ipAddress) {
 			if (!strlen ($ipAddress)) {continue;}	// Skip empty
-			$dnsNames[$id]['dnsName'] = gethostbyaddr ($ipAddress);
+			$dnsNames[$id]['dnsName'] = $this->ipToDns ($ipAddress);
 		}
 		
 		# Update the data
@@ -1546,7 +1553,7 @@ class computingInventory extends frontControllerApplication
 		
 		# Look up DNS names
 		foreach ($data as $key => $record) {
-			if (!$dnsName = gethostbyaddr ($record['ipaddress'])) {
+			if (!$dnsName = $this->ipToDns ($record['ipaddress'])) {
 				$html .= "<p class=\"warning\">Error converting {$record['ipaddress']} to a DNS name.</p>";
 				echo $html;
 				return false;
