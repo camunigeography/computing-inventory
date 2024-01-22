@@ -503,7 +503,21 @@ class computingInventory extends frontControllerApplication
 	# Function to get a DNS name from an IP, due to unreliability of gethostbyaddr
 	private function ipToDns ($ip)
 	{
-		return gethostbyaddr ($ip);
+		# Validate, to avoid potential shell_exec exploits below
+		if (!filter_var ($ip, FILTER_VALIDATE_IP)) {return false;}
+		
+		# Try gethostbyaddress first
+		$name = gethostbyaddr ($ip);
+		if ($name != $ip) {		// I.e. not still an IP
+			return $name;
+		}
+		
+		# Otherwise try dig
+		$command = "dig -x {$ip} +short | tail -n1";	// Simplified output, last line
+		$shellResult = shell_exec ($command);			// NB application::createProcess has been tried but does not seem to work
+		$shellResult = trim ($shellResult);				// Trim trailing newline
+		$dnsName = rtrim ($shellResult, '.');			// Trim ending dot
+		return $dnsName;
 	}
 	
 	
