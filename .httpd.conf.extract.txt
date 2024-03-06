@@ -4,14 +4,10 @@
 #   
 #   # Computing inventory
 #   Include /path/to/computing-inventory/.httpd.conf.extract.txt
-#   Use MacroComputingInventory "/computing/inventory" "/path/to/computing-inventory/:/path/to/php/libraries/"
+#   Use MacroComputingInventory "/computing/inventory"
 
 
-<Macro MacroComputingInventory $applicationBaseUrl $includePath>
-	
-	<Location $applicationBaseUrl>
-		php_value include_path "$includePath"
-	</Location>
+<Macro MacroComputingInventory $applicationBaseUrl>
 	
 	RewriteEngine on
 	

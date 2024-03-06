@@ -8,7 +8,7 @@ $settings = array (
 );
 
 # Run the application with the specified settings
-require_once ('computingInventory.php');
+require_once ('vendor/autoload.php');
 new computingInventory ($settings);
 
 ?>

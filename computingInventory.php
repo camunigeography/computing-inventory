@@ -14,7 +14,6 @@
 # (c) Martin Lucas-Smith, University of Cambridge
 
 
-require_once ('frontControllerApplication.php');
 class computingInventory extends frontControllerApplication
 {
 	# Function to assign defaults additional to the general application defaults
@@ -389,7 +388,6 @@ class computingInventory extends frontControllerApplication
 		);
 		
 		# Load and run the multisearch facility
-		require_once ('multisearch.php');
 		$multisearch = new multisearch ($settings);
 		$html = $multisearch->getHtml ();
 		
@@ -1445,7 +1443,6 @@ class computingInventory extends frontControllerApplication
 		$directory = $_SERVER['DOCUMENT_ROOT'] . $this->baseUrl . '/';
 		
 		# Create the upload form
-		require_once ('ultimateForm.php');
 		$form = new form (array (
 			'div' => 'graybox lines',
 			'formCompleteText' => false,
@@ -1466,7 +1463,6 @@ class computingInventory extends frontControllerApplication
 		}
 		
 		# Convert the file to CSV
-		require_once ('csv.php');
 		csv::xls2csv ($directory, $directory);
 		
 		# Read the CSV file
