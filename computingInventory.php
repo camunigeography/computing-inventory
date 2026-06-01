@@ -300,12 +300,6 @@ class computingInventory extends frontControllerApplication
 		$html .= "\n<h2>IP addresses</h2>";
 		$html .= "\n<p><a href=\"{$this->baseUrl}/ipaddresses/\">Browse the IP addresses</a> or search for a machine using one:</p>";
 		$this->ipAddressSearchBox ($html);
-/*
-		$html .= "\n" . '<form method="get" action="' . $this->baseUrl . '/ipaddresses/search.html" class="search" name="search">
-			<img src="/images/icons/magnifier.png" alt="" class="icon">
-			<input name="q" type="text" size="30" value="" placeholder="Search IP addresses" />&nbsp;<input value="Search!" accesskey="s" type="submit" class="button" />
-		</form>';
-*/
 		$html .= "\n</div>";
 		
 		# Show the HTML
@@ -323,9 +317,9 @@ class computingInventory extends frontControllerApplication
 			'name' => false,
 			'nullText' => false,
 			'div' => 'ultimateform miniform',
-			'submitTo' => $this->baseUrl . '/search/',
+			'submitTo' => $this->baseUrl . '/ipaddresses/search.html',
 			'display'		=> 'template',
-			'displayTemplate' => '{[[PROBLEMS]]}' /* Slightly hacky way of ensuring the problems list doesn't appear twice on the page */ . '<p>{ipaddress} {[[SUBMIT]]}</p>',
+			'displayTemplate' => '{[[PROBLEMS]]}' /* Slightly hacky way of ensuring the problems list doesn't appear twice on the page */ . '<p>{q} {[[SUBMIT]]}</p>',
 			'submitButtonText' => 'Search!',
 			'submitButtonAccesskey' => false,
 			'formCompleteText' => false,
@@ -333,7 +327,7 @@ class computingInventory extends frontControllerApplication
 			'reappear' => true,
 		));
 		$form->search (array (
-			'name'		=> 'ipaddress',
+			'name'		=> 'q',
 			'size'		=> 30,
 			'maxlength'	=> 15,
 			'title'		=> 'IP address',
