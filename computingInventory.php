@@ -1592,7 +1592,7 @@ class computingInventory extends frontControllerApplication
 		);
 		
 		# Run the settings page
-		parent::settings ($dataBindingSettingsOverrides);
+		echo parent::settings ($dataBindingSettingsOverrides);
 	}
 }
 
