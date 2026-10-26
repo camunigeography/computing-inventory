@@ -8,7 +8,6 @@
 
 
 # Class to create a computing inventory administration system
-# Version 1.0.0
 
 # Licence: GPL
 # (c) Martin Lucas-Smith, University of Cambridge
@@ -16,6 +15,12 @@
 
 class computingInventory extends frontControllerApplication
 {
+	# Class properties
+	private $excludeDecommissionedSql;
+	private $includeDecommissionedSql;
+	
+	
+	
 	# Function to assign defaults additional to the general application defaults
 	public function defaults ()
 	{
